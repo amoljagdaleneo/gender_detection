@@ -1,13 +1,13 @@
 import cv2
 import create_embedding
-import train_gender_classifier
+from tensorflow.keras import models
 
 
 class PredictGender:
     def __init__(self):
         self.emb_model = create_embedding.InitModel()
         self.emb_model.init_embeding()
-        self.classifier = train_gender_classifier.TrainClassifier().create_model()
+        self.classifier = models.load_model('gender_classifier.h5')
 
     def predict_image(self, image):
         image_cv = cv2.imread(image)
