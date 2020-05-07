@@ -9,6 +9,7 @@ class PredictGender:
         self.emb_model.init_embeding()
         self.classifier = models.load_model('gender_classifier.h5')
 
+    # prediction image by model trained on full body
     def predict_image(self, image):
         image_cv = cv2.imread(image)
         image_emb = self.emb_model.human_vector(image_cv)

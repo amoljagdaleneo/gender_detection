@@ -2,3 +2,4 @@ venv/
 weights/
 .idea/
 dataset/
+__pycache__/

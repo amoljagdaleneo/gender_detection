@@ -7,7 +7,7 @@ class GenderDetector:
         self.face_cascade = cv2.CascadeClassifier('weights/haarcascade_frontalface_default.xml')
 
         # to detect gender of face
-        self.gender_net = cv2.dnn.readNetFromCaffe('weigths/face/gender.prototxt', 'weigths/face/gender.caffemodel')
+        self.gender_net = cv2.dnn.readNetFromCaffe('weights/face/gender.prototxt', 'weights/face/gender.caffemodel')
         self.mean_values = (78.4263377603, 87.7689143744, 114.895847746)
         self.gender_list = ['Male', 'Female']
 

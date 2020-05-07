@@ -5,6 +5,7 @@ from face_prediction import GenderDetector
 from body_gender_predict import PredictGender
 import time
 import numpy as np
+import sys
 
 
 class DetectAndUpload:
@@ -22,10 +23,14 @@ class DetectAndUpload:
     # main function run
     def detect_and_save(self, image):
         detected_persons = self.person_detector.detect(image)
+        frame = cv2.imread(image)
+        if frame is None:
+            print("please insert valid image")
         for detected_person in detected_persons:
             face_result = self.face_gender.detect_gender(detected_persons)
             body_result = self.body_gender.predict_image(detected_person)
 
+            # No face is detected
             if face_result is None:
                 # face is not detected
                 print(body_result)
@@ -34,7 +39,16 @@ class DetectAndUpload:
                 else:
                     result = "Female"
                 self.save(detected_person, result, image)
-                return  result
+                return result
+
+            # Result of both body and face are same
+            elif int(np.argmax(body_result)) == int(np.argmax(face_result)):
+                if int(np.argmax(face_result)):
+                    result = "Male"
+                else:
+                    result = "Female"
+                self.save(detected_person, result, image)
+                return result
             else:
                 # face and body result combined
                 gender = ["Male", "Female"]
@@ -56,3 +70,11 @@ class DetectAndUpload:
         cv2.imwrite(cropped_image_path, detected_person)
         result_to_write = {"Original": image, "Cropped": cropped_image_path, "Gender": result}
         self.create_db_document(result_to_write)
+
+
+if __name__ == "__main__":
+    if sys.argv[1] == "-imagepath":
+        obj = DetectAndUpload()
+        obj.detect_and_save(sys.argv[2])
+    else:
+        print("use -imagepath to give image")

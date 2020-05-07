@@ -40,6 +40,7 @@ class TrainClassifier:
             output = self.keras_model.utils.to_categorical(self.male, num_classes=2)
             train_y.append(output)
 
+        # for female dataset
         female_datapath = dataset_path + "/female"
         for image in glob.glob(female_datapath + "/*jpg"):
             image_cv = cv2.imread(image)
