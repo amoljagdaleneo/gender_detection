@@ -3,3 +3,5 @@ weights/
 .idea/
 dataset/
 __pycache__/
+googlevision.py
+wakeupcat.jpg
